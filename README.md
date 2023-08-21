@@ -29,13 +29,13 @@ parser.includeSection(SectionId.CUSTOM);
 // parser.includeSection(SectionId.CODE); // call for each section you want
 
 // implement the listener        
-parser.setListener(s -> {
-    if (s.getSectionId() == SectionId.CUSTOM) {
-        var customSection = (CustomSection) s;
+parser.setListener(section -> {
+    if (section.getSectionId() == SectionId.CUSTOM) {
+        var customSection = (CustomSection) section;
         var name = customSection.getName();
         System.out.println("Got custom section with name: " + name);
     } else {
-        fail("Should not have received section with id: " + s.getSectionId());
+        fail("Should not have received section with id: " + section.getSectionId());
     }
 });
 
