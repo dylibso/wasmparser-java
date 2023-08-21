@@ -18,4 +18,12 @@ public class FunctionBody {
     public List<Instruction> getInstructions() {
         return instructions;
     }
+
+    public Ast getAst() {
+        var ast = new Ast();
+        for (var i : instructions) {
+            ast.addInstruction(i);
+        }
+        return ast;
+    }
 }

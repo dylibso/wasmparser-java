@@ -7,6 +7,7 @@ public class Instruction {
     private int address;
     private OpCode opcode;
     private List<Long> operands;
+    private CodeBlock block;
 
     public Instruction(int address, OpCode opcode, List<Long> operands) {
         this.address = address;
@@ -22,12 +23,23 @@ public class Instruction {
         return operands;
     }
 
+    public void setCodeBlock(CodeBlock block) {
+        this.block = block;
+    }
+
+    public CodeBlock getCodeBlock() {
+        return block;
+    }
+
     public String toString() {
-        var addr = "0x" + Integer.toHexString(address);
         if (operands.size() > 0) {
-            return addr + " " + opcode + " " + operands;
+            return opcode + " " + operands;
         } else {
-            return addr + " " + opcode.toString();
+            return opcode.toString();
         }
+    }
+
+    public int getAddress() {
+        return address;
     }
 }

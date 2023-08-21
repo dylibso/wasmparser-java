@@ -1,9 +1,6 @@
 package com.dylibso.wasm;
 
-import com.dylibso.wasm.types.CustomSection;
-import com.dylibso.wasm.types.OpCode;
-import com.dylibso.wasm.types.Section;
-import com.dylibso.wasm.types.SectionId;
+import com.dylibso.wasm.types.*;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -73,7 +70,7 @@ public class ParserTest {
         var instructions = func.getInstructions();
         assertEquals(3, instructions.size());
 
-        assertEquals("0x32 I32_CONST [42]", instructions.get(0).toString());
+        assertEquals("I32_CONST [42]", instructions.get(0).toString());
         assertEquals(OpCode.I32_CONST, instructions.get(0).getOpcode());
         assertEquals(42L, (long)instructions.get(0).getOperands().get(0));
         assertEquals(OpCode.CALL, instructions.get(1).getOpcode());
@@ -152,4 +149,13 @@ public class ParserTest {
         parser.parse();
     }
 
+    @Test
+    public void shouldParseAst() {
+        var parser = new Parser("src/test/resources/wasm/code.wasm");
+        var module = parser.parseModule();
+        var codeSection = module.getCodeSection();
+        var fbody = codeSection.getFunctionBodies().get(0);
+        var ast = fbody.getAst();
+        ast.print();
+    }
 }
