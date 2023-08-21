@@ -15,6 +15,7 @@ public class Module {
     private GlobalSection globalSection;
     private ExportSection exportSection;
     private StartSection startSection;
+    private ElementSection elementSection;
     private CodeSection codeSection;
     private DataSection dataSection;
 
@@ -108,5 +109,13 @@ public class Module {
 
     public List<CustomSection> getCustomSections() {
         return customSections;
+    }
+
+    public ElementSection getElementSection() {
+        return elementSection;
+    }
+
+    public void setElementSection(ElementSection elementSection) {
+        this.elementSection = elementSection;
     }
 }

@@ -114,6 +114,10 @@ public class Parser {
                         var startSection = parseStartSection(buffer, sectionId, sectionSize);
                         listener.onSection(startSection);
                     }
+                    case SectionId.ELEMENT -> {
+                        var elementSection = parseElementSection(buffer, sectionId, sectionSize);
+                        listener.onSection(elementSection);
+                    }
                     case SectionId.CODE -> {
                         var codeSection = parseCodeSection(buffer, sectionId, sectionSize);
                         listener.onSection(codeSection);
@@ -297,6 +301,30 @@ public class Parser {
         var startSection = new StartSection(sectionId, sectionSize);
         startSection.setStartIndex(readVarUInt32(buffer));
         return startSection;
+    }
+
+    private static ElementSection parseElementSection(ByteBuffer buffer, long sectionId, long sectionSize) {
+        var elementSection = new ElementSection(sectionId, sectionSize);
+        var elementCount = readVarUInt32(buffer);
+
+        for (var i = 0; i < elementCount; i++) {
+            var tableIndex = readVarUInt32(buffer);
+            var expr = new ArrayList<Byte>();
+            byte b;
+            do {
+                b = (byte) (buffer.get() & 0xff);
+                expr.add(b);
+            } while (b != 0x0B);
+            var funcIndexCount = readVarUInt32(buffer);
+            var funcIndices = new ArrayList<Long>();
+            for (var j = 0; j < funcIndexCount; j++) {
+                funcIndices.add(readVarUInt32(buffer));
+            }
+            elementSection.addElement(new Element(tableIndex, expr, funcIndices));
+
+        }
+
+        return elementSection;
     }
 
     private static CodeSection parseCodeSection(ByteBuffer buffer, long sectionId, long sectionSize) {
