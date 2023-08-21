@@ -4,10 +4,12 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Instruction {
+    private int address;
     private OpCode opcode;
     private List<Long> operands;
 
-    public Instruction(OpCode opcode, List<Long> operands) {
+    public Instruction(int address, OpCode opcode, List<Long> operands) {
+        this.address = address;
         this.opcode = opcode;
         this.operands = operands;
     }
@@ -21,10 +23,11 @@ public class Instruction {
     }
 
     public String toString() {
+        var addr = "0x" + Integer.toHexString(address);
         if (operands.size() > 0) {
-            return opcode + " " + operands;
+            return addr + " " + opcode + " " + operands;
         } else {
-            return opcode.toString();
+            return addr + " " + opcode.toString();
         }
     }
 }

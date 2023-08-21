@@ -344,6 +344,7 @@ public class Parser {
             var instructions = new ArrayList<Instruction>();
             OpCode op;
             do {
+                var address = buffer.position();
                 var b = buffer.get() & 0xff;
                 op = OpCode.byOpCode(b);
                 //System.out.println("b: " + b + " op: " + op);
@@ -356,18 +357,18 @@ public class Parser {
                             operands.add(readVarUInt32(buffer));
                         }
                         operands.add(readVarUInt32(buffer));
-                        instructions.add(new Instruction(op, operands));
+                        instructions.add(new Instruction(address, op, operands));
                     }
                     default -> {
                         switch (count) {
-                            case 0 -> instructions.add(new Instruction(op, List.of()));
+                            case 0 -> instructions.add(new Instruction(address, op, List.of()));
                             case 1 -> {
                                 var operands = List.of(readVarUInt32(buffer));
-                                instructions.add(new Instruction(op, operands));
+                                instructions.add(new Instruction(address, op, operands));
                             }
                             case 2 -> {
                                 var operands = List.of(readVarUInt32(buffer), readVarUInt32(buffer));
-                                instructions.add(new Instruction(op, operands));
+                                instructions.add(new Instruction(address, op, operands));
                             }
                             default -> throw new IllegalStateException("can't handle non standard instruction type");
                         }
