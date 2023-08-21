@@ -24,7 +24,7 @@ If you don't call this method once it will parse all sections.
 ```java
 var parser = new Parser("/tmp/code.wasm");
 
-// include the custom sections
+// include the custom sections, don't call this to receive all sections
 parser.includeSection(SectionId.CUSTOM);
 // parser.includeSection(SectionId.CODE); // call for each section you want
 
