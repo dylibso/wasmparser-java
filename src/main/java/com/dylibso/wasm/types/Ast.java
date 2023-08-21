@@ -60,7 +60,7 @@ public class Ast {
 
     private void printAst(CodeBlock block, int depth) {
         for (var i : block.getInstructions()) {
-            System.out.println("0x" + Integer.toHexString(i.getAddress()) + " | " + "\t".repeat(depth+1) + i.toString());
+            System.out.println("0x" + Integer.toHexString(i.getAddress()) + " | " + "\t".repeat(depth) + i.toString());
             if (i.getCodeBlock() != null) {
                 printAst(i.getCodeBlock(), depth + 1);
             }

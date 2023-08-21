@@ -76,8 +76,6 @@ public class ParserTest {
         assertEquals(OpCode.CALL, instructions.get(1).getOpcode());
         assertEquals(0L, (long)instructions.get(1).getOperands().get(0));
         assertEquals(OpCode.END, instructions.get(2).getOpcode());
-
-
     }
 
     @Test
