@@ -38,9 +38,9 @@ middle = <<-MIDDLE
 
     public static OpCode byOpCode(int opcode) { return byOpCode.get(opcode); }
 
-    private static final Map<OpCode, Integer> signature = new HashMap<>();
+    private static final Map<OpCode, WasmEncoding[]> signature = new HashMap<>();
 
-    public static int getOperandCount(OpCode o) {
+    public static WasmEncoding[] getSignature(OpCode o) {
         return signature.get(o);
     }
 
@@ -56,7 +56,19 @@ end
 code << middle
 
 instructions.each_with_index do |instr, i|
-    code << "\t\tsignature.put(#{instr[0]}, #{instr[3].length});\n"
+    sig = instr[3].map do |p|
+        case p
+        when "<varuint>"
+          "WasmEncoding.VARUINT"
+        when "<float>"
+          "WasmEncoding.FLOAT"
+        when "vec(<varuint>)"
+          "WasmEncoding.VEC_VARUINT"
+        else
+          raise "Unknown param #{p}"
+        end
+    end.join(",")
+    code << "\t\tsignature.put(#{instr[0]}, new WasmEncoding[]{#{sig}});\n"
 end
 
 code << <<-FOOTER

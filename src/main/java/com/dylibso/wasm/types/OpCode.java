@@ -9,53 +9,53 @@ import java.util.Map;
 public enum OpCode {
 	UNREACHABLE(0x00), // unreachable
 	NOP(0x01), // nop
-	BLOCK(0x02), // block <blocktype>
+	BLOCK(0x02), // block <varuint>
 	LOOP(0x03), // loop
 	IF(0x04), // if
 	ELSE(0x05), // else
 	END(0x0B), // end
-	BR(0x0C), // br <labelidx>
-	BR_IF(0x0D), // br_if <labelidx>
-	BR_TABLE(0x0E), // br_table vec(<labelidx>) <labelidx>
+	BR(0x0C), // br <varuint>
+	BR_IF(0x0D), // br_if <varuint>
+	BR_TABLE(0x0E), // br_table vec(<varuint>) <varuint>
 	RETURN(0x0F), // return
-	CALL(0x10), // call <funcidx>
-	CALL_INDIRECT(0x11), // call_indirect <typeidx>
+	CALL(0x10), // call <varuint>
+	CALL_INDIRECT(0x11), // call_indirect <varuint>
 	DROP(0x1A), // drop
 	SELECT(0x1B), // select
-	LOCAL_GET(0x20), // local.get <x>
-	LOCAL_SET(0x21), // local.set <x>
-	LOCAL_TEE(0x22), // local.tee <x>
-	GLOBAL_GET(0x23), // global.get <x>
-	GLOBAL_SET(0x24), // global.set <x>
-	I32_LOAD(0x28), // i32.load <offset> <align>
-	I64_LOAD(0x29), // i64.load <offset> <align>
-	F32_LOAD(0x2A), // f32.load <offset> <align>
-	F64_LOAD(0x2B), // f64.load <offset> <align>
-	I32_LOAD8_S(0x2C), // i32.load8_s <offset> <align>
-	I32_LOAD8_U(0x2D), // i32.load8_u <offset> <align>
-	I32_LOAD16_S(0x2E), // i32.load16_s <offset> <align>
-	I32_LOAD16_U(0x2F), // i32.load16_u <offset> <align>
-	I64_LOAD8_S(0x30), // i64.load8_s <offset> <align>
-	I64_LOAD8_U(0x31), // i64.load8_u <offset> <align>
-	I64_LOAD16_S(0x32), // i64.load16_s <offset> <align>
-	I64_LOAD16_U(0x33), // i64.load16_u <offset> <align>
-	I64_LOAD32_S(0x34), // i64.load32_s <offset> <align>
-	I64_LOAD32_U(0x35), // i64.load32_u <offset> <align>
-	I32_STORE(0x36), // i32.store <offset> <align>
-	I64_STORE(0x37), // i64.store <offset> <align>
-	F32_STORE(0x38), // f32.store <offset> <align>
-	F64_STORE(0x39), // f64.store <offset> <align>
-	I32_STORE8(0x3A), // i32.store8 <offset> <align>
-	I32_STORE16(0x3B), // i32.store16 <offset> <align>
-	I64_STORE8(0x3C), // i64.store8 <offset> <align>
-	I64_STORE16(0x3D), // i64.store16 <offset> <align>
-	I64_STORE32(0x3E), // i64.store32 <offset> <align>
+	LOCAL_GET(0x20), // local.get <varuint>
+	LOCAL_SET(0x21), // local.set <varuint>
+	LOCAL_TEE(0x22), // local.tee <varuint>
+	GLOBAL_GET(0x23), // global.get <varuint>
+	GLOBAL_SET(0x24), // global.set <varuint>
+	I32_LOAD(0x28), // i32.load <varuint> <varuint>
+	I64_LOAD(0x29), // i64.load <varuint> <varuint>
+	F32_LOAD(0x2A), // f32.load <varuint> <varuint>
+	F64_LOAD(0x2B), // f64.load <varuint> <varuint>
+	I32_LOAD8_S(0x2C), // i32.load8_s <varuint> <varuint>
+	I32_LOAD8_U(0x2D), // i32.load8_u <varuint> <varuint>
+	I32_LOAD16_S(0x2E), // i32.load16_s <varuint> <varuint>
+	I32_LOAD16_U(0x2F), // i32.load16_u <varuint> <varuint>
+	I64_LOAD8_S(0x30), // i64.load8_s <varuint> <varuint>
+	I64_LOAD8_U(0x31), // i64.load8_u <varuint> <varuint>
+	I64_LOAD16_S(0x32), // i64.load16_s <varuint> <varuint>
+	I64_LOAD16_U(0x33), // i64.load16_u <varuint> <varuint>
+	I64_LOAD32_S(0x34), // i64.load32_s <varuint> <varuint>
+	I64_LOAD32_U(0x35), // i64.load32_u <varuint> <varuint>
+	I32_STORE(0x36), // i32.store <varuint> <varuint>
+	I64_STORE(0x37), // i64.store <varuint> <varuint>
+	F32_STORE(0x38), // f32.store <varuint> <varuint>
+	F64_STORE(0x39), // f64.store <varuint> <varuint>
+	I32_STORE8(0x3A), // i32.store8 <varuint> <varuint>
+	I32_STORE16(0x3B), // i32.store16 <varuint> <varuint>
+	I64_STORE8(0x3C), // i64.store8 <varuint> <varuint>
+	I64_STORE16(0x3D), // i64.store16 <varuint> <varuint>
+	I64_STORE32(0x3E), // i64.store32 <varuint> <varuint>
 	MEMORY_SIZE(0x3F), // memory.size
 	MEMORY_GROW(0x40), // memory.grow
-	I32_CONST(0x41), // i32.const <i32>
-	I64_CONST(0x42), // i64.const <i64>
-	F32_CONST(0x43), // f32.const <f32>
-	F64_CONST(0x44), // f64.const <f64>
+	I32_CONST(0x41), // i32.const <varuint>
+	I64_CONST(0x42), // i64.const <varuint>
+	F32_CONST(0x43), // f32.const <float>
+	F64_CONST(0x44), // f64.const <float>
 	I32_EQZ(0x45), // i32.eqz
 	I32_EQ(0x46), // i32.eq
 	I32_NE(0x47), // i32.ne
@@ -200,189 +200,189 @@ public enum OpCode {
 
     public static OpCode byOpCode(int opcode) { return byOpCode.get(opcode); }
 
-    private static final Map<OpCode, Integer> signature = new HashMap<>();
+    private static final Map<OpCode, WasmEncoding[]> signature = new HashMap<>();
 
-    public static int getOperandCount(OpCode o) {
+    public static WasmEncoding[] getSignature(OpCode o) {
         return signature.get(o);
     }
 
     static {
-		signature.put(UNREACHABLE, 0);
-		signature.put(NOP, 0);
-		signature.put(BLOCK, 1);
-		signature.put(LOOP, 0);
-		signature.put(IF, 0);
-		signature.put(ELSE, 0);
-		signature.put(END, 0);
-		signature.put(BR, 1);
-		signature.put(BR_IF, 1);
-		signature.put(BR_TABLE, 2);
-		signature.put(RETURN, 0);
-		signature.put(CALL, 1);
-		signature.put(CALL_INDIRECT, 1);
-		signature.put(DROP, 0);
-		signature.put(SELECT, 0);
-		signature.put(LOCAL_GET, 1);
-		signature.put(LOCAL_SET, 1);
-		signature.put(LOCAL_TEE, 1);
-		signature.put(GLOBAL_GET, 1);
-		signature.put(GLOBAL_SET, 1);
-		signature.put(I32_LOAD, 2);
-		signature.put(I64_LOAD, 2);
-		signature.put(F32_LOAD, 2);
-		signature.put(F64_LOAD, 2);
-		signature.put(I32_LOAD8_S, 2);
-		signature.put(I32_LOAD8_U, 2);
-		signature.put(I32_LOAD16_S, 2);
-		signature.put(I32_LOAD16_U, 2);
-		signature.put(I64_LOAD8_S, 2);
-		signature.put(I64_LOAD8_U, 2);
-		signature.put(I64_LOAD16_S, 2);
-		signature.put(I64_LOAD16_U, 2);
-		signature.put(I64_LOAD32_S, 2);
-		signature.put(I64_LOAD32_U, 2);
-		signature.put(I32_STORE, 2);
-		signature.put(I64_STORE, 2);
-		signature.put(F32_STORE, 2);
-		signature.put(F64_STORE, 2);
-		signature.put(I32_STORE8, 2);
-		signature.put(I32_STORE16, 2);
-		signature.put(I64_STORE8, 2);
-		signature.put(I64_STORE16, 2);
-		signature.put(I64_STORE32, 2);
-		signature.put(MEMORY_SIZE, 0);
-		signature.put(MEMORY_GROW, 0);
-		signature.put(I32_CONST, 1);
-		signature.put(I64_CONST, 1);
-		signature.put(F32_CONST, 1);
-		signature.put(F64_CONST, 1);
-		signature.put(I32_EQZ, 0);
-		signature.put(I32_EQ, 0);
-		signature.put(I32_NE, 0);
-		signature.put(I32_LT_S, 0);
-		signature.put(I32_LT_U, 0);
-		signature.put(I32_GT_S, 0);
-		signature.put(I32_GT_U, 0);
-		signature.put(I32_LE_S, 0);
-		signature.put(I32_LE_U, 0);
-		signature.put(I32_GE_S, 0);
-		signature.put(I32_GE_U, 0);
-		signature.put(I64_EQZ, 0);
-		signature.put(I64_EQ, 0);
-		signature.put(I64_NE, 0);
-		signature.put(I64_LT_S, 0);
-		signature.put(I64_LT_U, 0);
-		signature.put(I64_GT_S, 0);
-		signature.put(I64_GT_U, 0);
-		signature.put(I64_LE_S, 0);
-		signature.put(I64_LE_U, 0);
-		signature.put(I64_GE_S, 0);
-		signature.put(I64_GE_U, 0);
-		signature.put(F32_EQ, 0);
-		signature.put(F32_NE, 0);
-		signature.put(F32_LT, 0);
-		signature.put(F32_GT, 0);
-		signature.put(F32_LE, 0);
-		signature.put(F32_GE, 0);
-		signature.put(F64_EQ, 0);
-		signature.put(F64_NE, 0);
-		signature.put(F64_LT, 0);
-		signature.put(F64_GT, 0);
-		signature.put(F64_LE, 0);
-		signature.put(F64_GE, 0);
-		signature.put(I32_CLZ, 0);
-		signature.put(I32_CTZ, 0);
-		signature.put(I32_POPCNT, 0);
-		signature.put(I32_ADD, 0);
-		signature.put(I32_SUB, 0);
-		signature.put(I32_MUL, 0);
-		signature.put(I32_DIV_S, 0);
-		signature.put(I32_DIV_U, 0);
-		signature.put(I32_REM_S, 0);
-		signature.put(I32_REM_U, 0);
-		signature.put(I32_AND, 0);
-		signature.put(I32_OR, 0);
-		signature.put(I32_XOR, 0);
-		signature.put(I32_SHL, 0);
-		signature.put(I32_SHR_S, 0);
-		signature.put(I32_SHR_U, 0);
-		signature.put(I32_ROTL, 0);
-		signature.put(I32_ROTR, 0);
-		signature.put(I64_CLZ, 0);
-		signature.put(I64_CTZ, 0);
-		signature.put(I64_POPCNT, 0);
-		signature.put(I64_ADD, 0);
-		signature.put(I64_SUB, 0);
-		signature.put(I64_MUL, 0);
-		signature.put(I64_DIV_S, 0);
-		signature.put(I64_DIV_U, 0);
-		signature.put(I64_REM_S, 0);
-		signature.put(I64_REM_U, 0);
-		signature.put(I64_AND, 0);
-		signature.put(I64_OR, 0);
-		signature.put(I64_XOR, 0);
-		signature.put(I64_SHL, 0);
-		signature.put(I64_SHR_S, 0);
-		signature.put(I64_SHR_U, 0);
-		signature.put(I64_ROTL, 0);
-		signature.put(I64_ROTR, 0);
-		signature.put(F32_ABS, 0);
-		signature.put(F32_NEG, 0);
-		signature.put(F32_CEIL, 0);
-		signature.put(F32_FLOOR, 0);
-		signature.put(F32_TRUNC, 0);
-		signature.put(F32_NEAREST, 0);
-		signature.put(F32_SQRT, 0);
-		signature.put(F32_ADD, 0);
-		signature.put(F32_SUB, 0);
-		signature.put(F32_MUL, 0);
-		signature.put(F32_DIV, 0);
-		signature.put(F32_MIN, 0);
-		signature.put(F32_MAX, 0);
-		signature.put(F32_COPYSIGN, 0);
-		signature.put(F64_ABS, 0);
-		signature.put(F64_NEG, 0);
-		signature.put(F64_CEIL, 0);
-		signature.put(F64_FLOOR, 0);
-		signature.put(F64_TRUNC, 0);
-		signature.put(F64_NEAREST, 0);
-		signature.put(F64_SQRT, 0);
-		signature.put(F64_ADD, 0);
-		signature.put(F64_SUB, 0);
-		signature.put(F64_MUL, 0);
-		signature.put(F64_DIV, 0);
-		signature.put(F64_MIN, 0);
-		signature.put(F64_MAX, 0);
-		signature.put(F64_COPYSIGN, 0);
-		signature.put(I32_WRAP_I64, 0);
-		signature.put(I32_TRUNC_F32_S, 0);
-		signature.put(I32_TRUNC_F32_U, 0);
-		signature.put(I32_TRUNC_F64_S, 0);
-		signature.put(I32_TRUNC_F64_U, 0);
-		signature.put(I64_EXTEND_I32_S, 0);
-		signature.put(I64_EXTEND_I32_U, 0);
-		signature.put(I64_TRUNC_F32_S, 0);
-		signature.put(I64_TRUNC_F32_U, 0);
-		signature.put(I64_TRUNC_F64_S, 0);
-		signature.put(I64_TRUNC_F64_U, 0);
-		signature.put(F32_CONVERT_I32_S, 0);
-		signature.put(F32_CONVERT_I32_U, 0);
-		signature.put(F32_CONVERT_I64_S, 0);
-		signature.put(F32_CONVERT_I64_U, 0);
-		signature.put(F32_DEMOTE_F64, 0);
-		signature.put(F64_CONVERT_I32_S, 0);
-		signature.put(F64_CONVERT_I32_U, 0);
-		signature.put(F64_CONVERT_I64_S, 0);
-		signature.put(F64_CONVERT_I64_U, 0);
-		signature.put(F64_PROMOTE_F32, 0);
-		signature.put(I32_REINTERPRET_F32, 0);
-		signature.put(I64_REINTERPRET_F64, 0);
-		signature.put(F32_REINTERPRET_I32, 0);
-		signature.put(F64_REINTERPRET_I64, 0);
-		signature.put(I32_EXTEND_8_S, 0);
-		signature.put(I32_EXTEND_16_S, 0);
-		signature.put(I64_EXTEND_8_S, 0);
-		signature.put(I64_EXTEND_16_S, 0);
-		signature.put(I64_EXTEND_32_S, 0);
+		signature.put(UNREACHABLE, new WasmEncoding[]{});
+		signature.put(NOP, new WasmEncoding[]{});
+		signature.put(BLOCK, new WasmEncoding[]{WasmEncoding.VARUINT});
+		signature.put(LOOP, new WasmEncoding[]{});
+		signature.put(IF, new WasmEncoding[]{});
+		signature.put(ELSE, new WasmEncoding[]{});
+		signature.put(END, new WasmEncoding[]{});
+		signature.put(BR, new WasmEncoding[]{WasmEncoding.VARUINT});
+		signature.put(BR_IF, new WasmEncoding[]{WasmEncoding.VARUINT});
+		signature.put(BR_TABLE, new WasmEncoding[]{WasmEncoding.VEC_VARUINT,WasmEncoding.VARUINT});
+		signature.put(RETURN, new WasmEncoding[]{});
+		signature.put(CALL, new WasmEncoding[]{WasmEncoding.VARUINT});
+		signature.put(CALL_INDIRECT, new WasmEncoding[]{WasmEncoding.VARUINT});
+		signature.put(DROP, new WasmEncoding[]{});
+		signature.put(SELECT, new WasmEncoding[]{});
+		signature.put(LOCAL_GET, new WasmEncoding[]{WasmEncoding.VARUINT});
+		signature.put(LOCAL_SET, new WasmEncoding[]{WasmEncoding.VARUINT});
+		signature.put(LOCAL_TEE, new WasmEncoding[]{WasmEncoding.VARUINT});
+		signature.put(GLOBAL_GET, new WasmEncoding[]{WasmEncoding.VARUINT});
+		signature.put(GLOBAL_SET, new WasmEncoding[]{WasmEncoding.VARUINT});
+		signature.put(I32_LOAD, new WasmEncoding[]{WasmEncoding.VARUINT,WasmEncoding.VARUINT});
+		signature.put(I64_LOAD, new WasmEncoding[]{WasmEncoding.VARUINT,WasmEncoding.VARUINT});
+		signature.put(F32_LOAD, new WasmEncoding[]{WasmEncoding.VARUINT,WasmEncoding.VARUINT});
+		signature.put(F64_LOAD, new WasmEncoding[]{WasmEncoding.VARUINT,WasmEncoding.VARUINT});
+		signature.put(I32_LOAD8_S, new WasmEncoding[]{WasmEncoding.VARUINT,WasmEncoding.VARUINT});
+		signature.put(I32_LOAD8_U, new WasmEncoding[]{WasmEncoding.VARUINT,WasmEncoding.VARUINT});
+		signature.put(I32_LOAD16_S, new WasmEncoding[]{WasmEncoding.VARUINT,WasmEncoding.VARUINT});
+		signature.put(I32_LOAD16_U, new WasmEncoding[]{WasmEncoding.VARUINT,WasmEncoding.VARUINT});
+		signature.put(I64_LOAD8_S, new WasmEncoding[]{WasmEncoding.VARUINT,WasmEncoding.VARUINT});
+		signature.put(I64_LOAD8_U, new WasmEncoding[]{WasmEncoding.VARUINT,WasmEncoding.VARUINT});
+		signature.put(I64_LOAD16_S, new WasmEncoding[]{WasmEncoding.VARUINT,WasmEncoding.VARUINT});
+		signature.put(I64_LOAD16_U, new WasmEncoding[]{WasmEncoding.VARUINT,WasmEncoding.VARUINT});
+		signature.put(I64_LOAD32_S, new WasmEncoding[]{WasmEncoding.VARUINT,WasmEncoding.VARUINT});
+		signature.put(I64_LOAD32_U, new WasmEncoding[]{WasmEncoding.VARUINT,WasmEncoding.VARUINT});
+		signature.put(I32_STORE, new WasmEncoding[]{WasmEncoding.VARUINT,WasmEncoding.VARUINT});
+		signature.put(I64_STORE, new WasmEncoding[]{WasmEncoding.VARUINT,WasmEncoding.VARUINT});
+		signature.put(F32_STORE, new WasmEncoding[]{WasmEncoding.VARUINT,WasmEncoding.VARUINT});
+		signature.put(F64_STORE, new WasmEncoding[]{WasmEncoding.VARUINT,WasmEncoding.VARUINT});
+		signature.put(I32_STORE8, new WasmEncoding[]{WasmEncoding.VARUINT,WasmEncoding.VARUINT});
+		signature.put(I32_STORE16, new WasmEncoding[]{WasmEncoding.VARUINT,WasmEncoding.VARUINT});
+		signature.put(I64_STORE8, new WasmEncoding[]{WasmEncoding.VARUINT,WasmEncoding.VARUINT});
+		signature.put(I64_STORE16, new WasmEncoding[]{WasmEncoding.VARUINT,WasmEncoding.VARUINT});
+		signature.put(I64_STORE32, new WasmEncoding[]{WasmEncoding.VARUINT,WasmEncoding.VARUINT});
+		signature.put(MEMORY_SIZE, new WasmEncoding[]{});
+		signature.put(MEMORY_GROW, new WasmEncoding[]{});
+		signature.put(I32_CONST, new WasmEncoding[]{WasmEncoding.VARUINT});
+		signature.put(I64_CONST, new WasmEncoding[]{WasmEncoding.VARUINT});
+		signature.put(F32_CONST, new WasmEncoding[]{WasmEncoding.FLOAT});
+		signature.put(F64_CONST, new WasmEncoding[]{WasmEncoding.FLOAT});
+		signature.put(I32_EQZ, new WasmEncoding[]{});
+		signature.put(I32_EQ, new WasmEncoding[]{});
+		signature.put(I32_NE, new WasmEncoding[]{});
+		signature.put(I32_LT_S, new WasmEncoding[]{});
+		signature.put(I32_LT_U, new WasmEncoding[]{});
+		signature.put(I32_GT_S, new WasmEncoding[]{});
+		signature.put(I32_GT_U, new WasmEncoding[]{});
+		signature.put(I32_LE_S, new WasmEncoding[]{});
+		signature.put(I32_LE_U, new WasmEncoding[]{});
+		signature.put(I32_GE_S, new WasmEncoding[]{});
+		signature.put(I32_GE_U, new WasmEncoding[]{});
+		signature.put(I64_EQZ, new WasmEncoding[]{});
+		signature.put(I64_EQ, new WasmEncoding[]{});
+		signature.put(I64_NE, new WasmEncoding[]{});
+		signature.put(I64_LT_S, new WasmEncoding[]{});
+		signature.put(I64_LT_U, new WasmEncoding[]{});
+		signature.put(I64_GT_S, new WasmEncoding[]{});
+		signature.put(I64_GT_U, new WasmEncoding[]{});
+		signature.put(I64_LE_S, new WasmEncoding[]{});
+		signature.put(I64_LE_U, new WasmEncoding[]{});
+		signature.put(I64_GE_S, new WasmEncoding[]{});
+		signature.put(I64_GE_U, new WasmEncoding[]{});
+		signature.put(F32_EQ, new WasmEncoding[]{});
+		signature.put(F32_NE, new WasmEncoding[]{});
+		signature.put(F32_LT, new WasmEncoding[]{});
+		signature.put(F32_GT, new WasmEncoding[]{});
+		signature.put(F32_LE, new WasmEncoding[]{});
+		signature.put(F32_GE, new WasmEncoding[]{});
+		signature.put(F64_EQ, new WasmEncoding[]{});
+		signature.put(F64_NE, new WasmEncoding[]{});
+		signature.put(F64_LT, new WasmEncoding[]{});
+		signature.put(F64_GT, new WasmEncoding[]{});
+		signature.put(F64_LE, new WasmEncoding[]{});
+		signature.put(F64_GE, new WasmEncoding[]{});
+		signature.put(I32_CLZ, new WasmEncoding[]{});
+		signature.put(I32_CTZ, new WasmEncoding[]{});
+		signature.put(I32_POPCNT, new WasmEncoding[]{});
+		signature.put(I32_ADD, new WasmEncoding[]{});
+		signature.put(I32_SUB, new WasmEncoding[]{});
+		signature.put(I32_MUL, new WasmEncoding[]{});
+		signature.put(I32_DIV_S, new WasmEncoding[]{});
+		signature.put(I32_DIV_U, new WasmEncoding[]{});
+		signature.put(I32_REM_S, new WasmEncoding[]{});
+		signature.put(I32_REM_U, new WasmEncoding[]{});
+		signature.put(I32_AND, new WasmEncoding[]{});
+		signature.put(I32_OR, new WasmEncoding[]{});
+		signature.put(I32_XOR, new WasmEncoding[]{});
+		signature.put(I32_SHL, new WasmEncoding[]{});
+		signature.put(I32_SHR_S, new WasmEncoding[]{});
+		signature.put(I32_SHR_U, new WasmEncoding[]{});
+		signature.put(I32_ROTL, new WasmEncoding[]{});
+		signature.put(I32_ROTR, new WasmEncoding[]{});
+		signature.put(I64_CLZ, new WasmEncoding[]{});
+		signature.put(I64_CTZ, new WasmEncoding[]{});
+		signature.put(I64_POPCNT, new WasmEncoding[]{});
+		signature.put(I64_ADD, new WasmEncoding[]{});
+		signature.put(I64_SUB, new WasmEncoding[]{});
+		signature.put(I64_MUL, new WasmEncoding[]{});
+		signature.put(I64_DIV_S, new WasmEncoding[]{});
+		signature.put(I64_DIV_U, new WasmEncoding[]{});
+		signature.put(I64_REM_S, new WasmEncoding[]{});
+		signature.put(I64_REM_U, new WasmEncoding[]{});
+		signature.put(I64_AND, new WasmEncoding[]{});
+		signature.put(I64_OR, new WasmEncoding[]{});
+		signature.put(I64_XOR, new WasmEncoding[]{});
+		signature.put(I64_SHL, new WasmEncoding[]{});
+		signature.put(I64_SHR_S, new WasmEncoding[]{});
+		signature.put(I64_SHR_U, new WasmEncoding[]{});
+		signature.put(I64_ROTL, new WasmEncoding[]{});
+		signature.put(I64_ROTR, new WasmEncoding[]{});
+		signature.put(F32_ABS, new WasmEncoding[]{});
+		signature.put(F32_NEG, new WasmEncoding[]{});
+		signature.put(F32_CEIL, new WasmEncoding[]{});
+		signature.put(F32_FLOOR, new WasmEncoding[]{});
+		signature.put(F32_TRUNC, new WasmEncoding[]{});
+		signature.put(F32_NEAREST, new WasmEncoding[]{});
+		signature.put(F32_SQRT, new WasmEncoding[]{});
+		signature.put(F32_ADD, new WasmEncoding[]{});
+		signature.put(F32_SUB, new WasmEncoding[]{});
+		signature.put(F32_MUL, new WasmEncoding[]{});
+		signature.put(F32_DIV, new WasmEncoding[]{});
+		signature.put(F32_MIN, new WasmEncoding[]{});
+		signature.put(F32_MAX, new WasmEncoding[]{});
+		signature.put(F32_COPYSIGN, new WasmEncoding[]{});
+		signature.put(F64_ABS, new WasmEncoding[]{});
+		signature.put(F64_NEG, new WasmEncoding[]{});
+		signature.put(F64_CEIL, new WasmEncoding[]{});
+		signature.put(F64_FLOOR, new WasmEncoding[]{});
+		signature.put(F64_TRUNC, new WasmEncoding[]{});
+		signature.put(F64_NEAREST, new WasmEncoding[]{});
+		signature.put(F64_SQRT, new WasmEncoding[]{});
+		signature.put(F64_ADD, new WasmEncoding[]{});
+		signature.put(F64_SUB, new WasmEncoding[]{});
+		signature.put(F64_MUL, new WasmEncoding[]{});
+		signature.put(F64_DIV, new WasmEncoding[]{});
+		signature.put(F64_MIN, new WasmEncoding[]{});
+		signature.put(F64_MAX, new WasmEncoding[]{});
+		signature.put(F64_COPYSIGN, new WasmEncoding[]{});
+		signature.put(I32_WRAP_I64, new WasmEncoding[]{});
+		signature.put(I32_TRUNC_F32_S, new WasmEncoding[]{});
+		signature.put(I32_TRUNC_F32_U, new WasmEncoding[]{});
+		signature.put(I32_TRUNC_F64_S, new WasmEncoding[]{});
+		signature.put(I32_TRUNC_F64_U, new WasmEncoding[]{});
+		signature.put(I64_EXTEND_I32_S, new WasmEncoding[]{});
+		signature.put(I64_EXTEND_I32_U, new WasmEncoding[]{});
+		signature.put(I64_TRUNC_F32_S, new WasmEncoding[]{});
+		signature.put(I64_TRUNC_F32_U, new WasmEncoding[]{});
+		signature.put(I64_TRUNC_F64_S, new WasmEncoding[]{});
+		signature.put(I64_TRUNC_F64_U, new WasmEncoding[]{});
+		signature.put(F32_CONVERT_I32_S, new WasmEncoding[]{});
+		signature.put(F32_CONVERT_I32_U, new WasmEncoding[]{});
+		signature.put(F32_CONVERT_I64_S, new WasmEncoding[]{});
+		signature.put(F32_CONVERT_I64_U, new WasmEncoding[]{});
+		signature.put(F32_DEMOTE_F64, new WasmEncoding[]{});
+		signature.put(F64_CONVERT_I32_S, new WasmEncoding[]{});
+		signature.put(F64_CONVERT_I32_U, new WasmEncoding[]{});
+		signature.put(F64_CONVERT_I64_S, new WasmEncoding[]{});
+		signature.put(F64_CONVERT_I64_U, new WasmEncoding[]{});
+		signature.put(F64_PROMOTE_F32, new WasmEncoding[]{});
+		signature.put(I32_REINTERPRET_F32, new WasmEncoding[]{});
+		signature.put(I64_REINTERPRET_F64, new WasmEncoding[]{});
+		signature.put(F32_REINTERPRET_I32, new WasmEncoding[]{});
+		signature.put(F64_REINTERPRET_I64, new WasmEncoding[]{});
+		signature.put(I32_EXTEND_8_S, new WasmEncoding[]{});
+		signature.put(I32_EXTEND_16_S, new WasmEncoding[]{});
+		signature.put(I64_EXTEND_8_S, new WasmEncoding[]{});
+		signature.put(I64_EXTEND_16_S, new WasmEncoding[]{});
+		signature.put(I64_EXTEND_32_S, new WasmEncoding[]{});
   }
 }

@@ -1,52 +1,52 @@
 unreachable 	$00
 nop 	$01
-block <blocktype>	$02
+block <varuint>	$02
 loop 	$03
 if	    $04
 else 	$05 		can only be used with if. Only single else is allowed per if
 end 	$0B 		end can only close block or loop clocks
-br <labelidx> 	$0C labelidx
-br_if <labelidx> 	$0D labelidx
-br_table vec(<labelidx>) <labelidx> 	$0E
+br <varuint> 	$0C labelidx
+br_if <varuint> 	$0D labelidx
+br_table vec(<varuint>) <varuint> 	$0E
 return   	   $0F
-call <funcidx>    	   $10
-call_indirect <typeidx> 	$11
+call <varuint>    	   $10
+call_indirect <varuint> 	$11
 drop 	$1A 	[t]→[]
 select 	$1B 	[t t i32]→[t]
-local.get <x> 	$20
-local.set <x> 	$21
-local.tee <x> 	$22
-global.get <x> 	$23
-global.set <x> 	$24
-i32.load <offset> <align> 	$28
-i64.load <offset> <align> 	$29
-f32.load <offset> <align> 	$2A
-f64.load <offset> <align> 	$2B
-i32.load8_s <offset> <align> 	$2C
-i32.load8_u <offset> <align> 	$2D
-i32.load16_s <offset> <align> 	$2E
-i32.load16_u <offset> <align> 	$2F
-i64.load8_s <offset> <align> 	$30
-i64.load8_u <offset> <align> 	$31
-i64.load16_s <offset> <align> 	$32
-i64.load16_u <offset> <align> 	$33
-i64.load32_s <offset> <align> 	$34
-i64.load32_u <offset> <align> 	$35
-i32.store <offset> <align> 	$36
-i64.store <offset> <align> 	$37
-f32.store <offset> <align> 	$38
-f64.store <offset> <align> 	$39
-i32.store8 <offset> <align> 	$3A
-i32.store16 <offset> <align> 	$3B
-i64.store8 <offset> <align> 	$3C
-i64.store16 <offset> <align> 	$3D
-i64.store32 <offset> <align> 	$3E
+local.get <varuint> 	$20
+local.set <varuint> 	$21
+local.tee <varuint> 	$22
+global.get <varuint> 	$23
+global.set <varuint> 	$24
+i32.load <varuint> <varuint> 	$28
+i64.load <varuint> <varuint> 	$29
+f32.load <varuint> <varuint> 	$2A
+f64.load <varuint> <varuint> 	$2B
+i32.load8_s <varuint> <varuint> 	$2C
+i32.load8_u <varuint> <varuint> 	$2D
+i32.load16_s <varuint> <varuint> 	$2E
+i32.load16_u <varuint> <varuint> 	$2F
+i64.load8_s <varuint> <varuint> 	$30
+i64.load8_u <varuint> <varuint> 	$31
+i64.load16_s <varuint> <varuint> 	$32
+i64.load16_u <varuint> <varuint> 	$33
+i64.load32_s <varuint> <varuint> 	$34
+i64.load32_u <varuint> <varuint> 	$35
+i32.store <varuint> <varuint> 	$36
+i64.store <varuint> <varuint> 	$37
+f32.store <varuint> <varuint> 	$38
+f64.store <varuint> <varuint> 	$39
+i32.store8 <varuint> <varuint> 	$3A
+i32.store16 <varuint> <varuint> 	$3B
+i64.store8 <varuint> <varuint> 	$3C
+i64.store16 <varuint> <varuint> 	$3D
+i64.store32 <varuint> <varuint> 	$3E
 memory.size 	$3F
 memory.grow 	$40
-i32.const <i32> 	$41
-i64.const <i64> 	$42
-f32.const <f32> 	$43
-f64.const <f64> 	$44
+i32.const <varuint> 	$41
+i64.const <varuint> 	$42
+f32.const <float> 	$43
+f64.const <float> 	$44
 i32.eqz 	$45 		Return 1 if i is zero, 0 otherwise.
 i32.eq 	$46 		Return 1 if i1 equals i2, 0 otherwise.
 i32.ne 	$47 		Return 1 if i1 does not equal i2, 0 otherwise.

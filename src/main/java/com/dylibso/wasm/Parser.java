@@ -344,42 +344,42 @@ public class Parser {
             var instructions = new ArrayList<Instruction>();
             OpCode op;
             do {
-                var address = buffer.position();
-                var b = buffer.get() & 0xff;
-                op = OpCode.byOpCode(b);
-                //System.out.println("b: " + b + " op: " + op);
-                var count = OpCode.getOperandCount(op);
-                switch (op) {
-                    case BR_TABLE -> {
-                        var labelCnt = readVarUInt32(buffer);
-                        var operands = new ArrayList<Long>();
-                        for (var c = 0; c < labelCnt; c++) {
-                            operands.add(readVarUInt32(buffer));
-                        }
-                        operands.add(readVarUInt32(buffer));
-                        instructions.add(new Instruction(address, op, operands));
-                    }
-                    default -> {
-                        switch (count) {
-                            case 0 -> instructions.add(new Instruction(address, op, List.of()));
-                            case 1 -> {
-                                var operands = List.of(readVarUInt32(buffer));
-                                instructions.add(new Instruction(address, op, operands));
-                            }
-                            case 2 -> {
-                                var operands = List.of(readVarUInt32(buffer), readVarUInt32(buffer));
-                                instructions.add(new Instruction(address, op, operands));
-                            }
-                            default -> throw new IllegalStateException("can't handle non standard instruction type");
-                        }
-                    }
-                }
-                //System.out.println(instructions.get(instructions.size()-1).toString());
+                var instruction = parseInstruction(buffer);
+                instructions.add(instruction);
+                //System.out.println(instruction.toString());
             } while (buffer.position() < funcEndPoint);
             codeSection.addFunctionBody(new FunctionBody(locals, instructions));
         }
 
         return codeSection;
+    }
+
+    private static Instruction parseInstruction(ByteBuffer buffer) {
+        var address = buffer.position();
+        var b = buffer.get() & 0xff;
+        var op = OpCode.byOpCode(b);
+        if (op == null) {
+            throw new IllegalArgumentException("Can't find opcode for op value " + b);
+        }
+        //System.out.println("b: " + b + " op: " + op);
+        var signature = OpCode.getSignature(op);
+        if (signature.length == 0) {
+            return new Instruction(address, op, List.of());
+        }
+        var operands = new ArrayList<Long>();
+        for (var sig : signature) {
+            switch (sig) {
+                case VARUINT -> operands.add(readVarUInt32(buffer));
+                case FLOAT -> operands.add(readFloat(buffer));
+                case VEC_VARUINT -> {
+                    var vcount = readVarUInt32(buffer);
+                    for (var i = 0; i < vcount; i++) {
+                        operands.add(readVarUInt32(buffer));
+                    }
+                }
+            }
+        }
+        return new Instruction(address, op, operands);
     }
 
     private static DataSection parseDataSection(ByteBuffer buffer, long sectionId, long sectionSize) {
@@ -412,6 +412,11 @@ public class Parser {
      */
     private static long readVarUInt32(ByteBuffer buffer) {
         return Leb128.readUnsignedLeb128(buffer);
+    }
+
+    // TODO convert to bytes don't cast
+    private static long readFloat(ByteBuffer buffer) {
+        return (long) buffer.getFloat();
     }
 
     private static String readName(ByteBuffer buffer) {

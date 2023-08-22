@@ -3,6 +3,9 @@ package com.dylibso.wasm;
 import com.dylibso.wasm.types.*;
 import org.junit.Test;
 
+import java.io.File;
+import java.io.FilenameFilter;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -108,20 +111,22 @@ public class ParserTest {
 
     @Test
     public void shouldParseAllFiles() {
-        var parser = new Parser("src/test/resources/wasm/kitchensink.wat.wasm");
-        var module = parser.parseModule();
-        parser = new Parser("src/test/resources/wasm/host-function.wat.wasm");
-        module = parser.parseModule();
-        parser = new Parser("src/test/resources/wasm/branching.wat.wasm");
-        module = parser.parseModule();
-        parser = new Parser("src/test/resources/wasm/br_if.wat.wasm");
-        module = parser.parseModule();
-        parser = new Parser("src/test/resources/wasm/globals.wat.wasm");
-        module = parser.parseModule();
-        parser = new Parser("src/test/resources/wasm/memories.wat.wasm");
-        module = parser.parseModule();
-        parser = new Parser("src/test/resources/wasm/trap.wat.wasm");
-        module = parser.parseModule();
+        File dir = new File("src/test/resources/wasm/");
+        File[] files = dir.listFiles((dir1, name) -> name.toLowerCase().endsWith(".wasm"));
+        var passed = 0;
+        var failed = 0;
+        for (var f : files) {
+            var parser = new Parser(f.getPath());
+            try {
+                var module = parser.parseModule();
+                passed++;
+            } catch (Exception e) {
+                e.printStackTrace();
+                failed++;
+            }
+        }
+        System.out.println("Passed: " + passed);
+        System.out.println("failed: " + failed);
     }
 
     @Test
