@@ -1,19 +1,17 @@
 package com.dylibso.wasm.types;
 
-import java.util.List;
-
 public class Element {
     private long tableIndex;
     private Instruction[] expr;
-    private List<Long> funcIndices;
+    private long[] funcIndices;
 
-    public Element(long tableIndex, Instruction[] expr, List<Long> funcIndices) {
+    public Element(long tableIndex, Instruction[] expr, long[] funcIndices) {
         this.tableIndex = tableIndex;
         this.expr = expr;
         this.funcIndices = funcIndices;
     }
 
-    public List<Long> getFuncIndices() {
+    public long[] getFuncIndices() {
         return funcIndices;
     }
 

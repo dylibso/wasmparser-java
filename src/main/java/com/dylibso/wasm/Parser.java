@@ -304,9 +304,9 @@ public class Parser {
             var tableIndex = readVarUInt32(buffer);
             var expr = parseExpression(buffer);
             var funcIndexCount = readVarUInt32(buffer);
-            var funcIndices = new ArrayList<Long>();
+            var funcIndices = new long[(int)funcIndexCount];
             for (var j = 0; j < funcIndexCount; j++) {
-                funcIndices.add(readVarUInt32(buffer));
+                funcIndices[j] = readVarUInt32(buffer);
             }
             elements[i] = new Element(tableIndex, expr, funcIndices);
         }
