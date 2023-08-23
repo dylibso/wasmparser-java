@@ -12,7 +12,7 @@ module using `parseModule`:
 ```java
 var parser = new Parser("/tmp/code.wasm");
 var module = parser.parseModule();
-var customSection = module.getCustomSections().get(0);
+var customSection = module.getCustomSections()[0];
 System.out.println("First custom section: " + customSection.getName());
 ```
 
