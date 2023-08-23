@@ -1,21 +1,14 @@
 package com.dylibso.wasm.types;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class GlobalSection extends Section {
-    private List<Global> globals;
+    private Global[] globals;
 
-    public GlobalSection(long id, long size) {
+    public GlobalSection(long id, long size, Global[] globals) {
        super(id, size);
-       this.globals = new ArrayList<>();
+       this.globals = globals;
     }
 
-    public void addGlobal(Global g) {
-        this.globals.add(g);
-    }
-
-    public List<Global> getGlobals() {
+    public Global[] getGlobals() {
         return globals;
     }
 }

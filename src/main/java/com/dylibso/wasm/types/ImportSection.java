@@ -1,21 +1,14 @@
 package com.dylibso.wasm.types;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class ImportSection extends Section {
-    private List<Import> imports;
+    private Import[] imports;
 
-    public ImportSection(long id, long size) {
+    public ImportSection(long id, long size, Import[] imports) {
        super(id, size);
-       this.imports = new ArrayList<>();
+       this.imports = imports;
     }
 
-    public void addImport(Import i) {
-        this.imports.add(i);
-    }
-
-    public List<Import> getImports() {
+    public Import[] getImports() {
         return imports;
     }
 }

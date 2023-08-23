@@ -1,21 +1,14 @@
 package com.dylibso.wasm.types;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class MemorySection extends Section {
-    private List<Memory> memories;
+    private Memory[] memories;
 
-    public MemorySection(long id, long size) {
+    public MemorySection(long id, long size, Memory[] memories) {
        super(id, size);
-       this.memories = new ArrayList<>();
+       this.memories = memories;
     }
 
-    public void addMemory(Memory m) {
-        this.memories.add(m);
-    }
-
-    public List<Memory> getMemories() {
+    public Memory[] getMemories() {
         return memories;
     }
 }

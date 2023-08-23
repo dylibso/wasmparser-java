@@ -156,8 +156,8 @@ public class Parser {
     }
 
     private static TypeSection parseTypeSection(ByteBuffer buffer, long sectionId, long sectionSize) {
-        var typeSection = new TypeSection(sectionId, sectionSize);
         var typeCount = readVarUInt32(buffer);
+        var types = new FunctionType[(int)typeCount];
 
         // Parse individual types in the type section
         for (int i = 0; i < typeCount; i++) {
@@ -184,15 +184,15 @@ public class Parser {
                 returns[j] = ValueType.byId(readVarUInt32(buffer));
             }
 
-            typeSection.addType(new FunctionType(params, returns));
+            types[i] = new FunctionType(params, returns);
         }
 
-        return typeSection;
+        return new TypeSection(sectionId, sectionSize, types);
     }
 
     private static ImportSection parseImportSection(ByteBuffer buffer, long sectionId, long sectionSize) {
-        var importSection = new ImportSection(sectionId, sectionSize);
         var importCount = readVarUInt32(buffer);
+        var imports = new Import[(int)importCount];
 
         // Parse individual imports in the import section
         for (int i = 0; i < importCount; i++) {
@@ -201,28 +201,28 @@ public class Parser {
             var descType = ImportDescType.byId(readVarUInt32(buffer));
             var descIdx = readVarUInt32(buffer);
             var desc = new ImportDesc(descIdx, descType);
-            importSection.addImport(new Import(moduleName, fieldName, desc));
+            imports[i] = new Import(moduleName, fieldName, desc);
         }
 
-        return importSection;
+        return new ImportSection(sectionId, sectionSize, imports);
     }
 
     private static FunctionSection parseFunctionSection(ByteBuffer buffer, long sectionId, long sectionSize) {
-        var functionSection = new FunctionSection(sectionId, sectionSize);
         var functionCount = readVarUInt32(buffer);
+        var typeIndices = new int[(int)functionCount];
 
         // Parse individual functions in the function section
         for (int i = 0; i < functionCount; i++) {
             var typeIndex = readVarUInt32(buffer);
-            functionSection.addTypeIndex((int) typeIndex);
+            typeIndices[i] = (int) typeIndex;
         }
 
-        return functionSection;
+        return new FunctionSection(sectionId, sectionSize, typeIndices);
     }
 
     private static TableSection parseTableSection(ByteBuffer buffer, long sectionId, long sectionSize) {
-        var tableSection = new TableSection(sectionId, sectionSize);
         var tableCount = readVarUInt32(buffer);
+        var tables = new Table[(int)tableCount];
 
         // Parse individual functions in the function section
         for (int i = 0; i < tableCount; i++) {
@@ -234,15 +234,15 @@ public class Parser {
             if (limitType == 0x01) {
                 max = readVarUInt32(buffer);
             }
-            tableSection.addTable(new Table(tableType, min, max));
+            tables[i] = new Table(tableType, min, max);
         }
 
-        return tableSection;
+        return new TableSection(sectionId, sectionSize, tables);
     }
 
     private static MemorySection parseMemorySection(ByteBuffer buffer, long sectionId, long sectionSize) {
-        var memorySection = new MemorySection(sectionId, sectionSize);
         var memoryCount = readVarUInt32(buffer);
+        var memories = new Memory[(int)memoryCount];
 
         // Parse individual functions in the function section
         for (int i = 0; i < memoryCount; i++) {
@@ -253,15 +253,15 @@ public class Parser {
             if (limitType == 0x01) {
                 max = readVarUInt32(buffer);
             }
-            memorySection.addMemory(new Memory(min, max));
+            memories[i] = new Memory(min, max);
         }
 
-        return memorySection;
+        return new MemorySection(sectionId, sectionSize, memories);
     }
 
     private static GlobalSection parseGlobalSection(ByteBuffer buffer, long sectionId, long sectionSize) {
-        var globalSection = new GlobalSection(sectionId, sectionSize);
         var globalCount = readVarUInt32(buffer);
+        var globals = new Global[(int)globalCount];
 
         // Parse individual globals
         for (int i = 0; i < globalCount; i++) {
@@ -274,16 +274,15 @@ public class Parser {
                 b = (byte) (buffer.get() & 0xff);
                 init.add(b);
             } while (b != 0x0B);
-            globalSection.addGlobal(new Global(valueType, mutabilityType, init));
+            globals[i] = new Global(valueType, mutabilityType, init);
         }
 
-
-        return globalSection;
+        return new GlobalSection(sectionId, sectionSize, globals);
     }
 
     private static ExportSection parseExportSection(ByteBuffer buffer, long sectionId, long sectionSize) {
-        var exportSection = new ExportSection(sectionId, sectionSize);
         var exportCount = readVarUInt32(buffer);
+        var exports = new Export[(int)exportCount];
 
         // Parse individual functions in the function section
         for (int i = 0; i < exportCount; i++) {
@@ -291,10 +290,10 @@ public class Parser {
             var exportType = ExportDescType.byId(readVarUInt32(buffer));
             var index = readVarUInt32(buffer);
             var desc = new ExportDesc(index, exportType);
-            exportSection.addExport(new Export(name, desc));
+            exports[i] = new Export(name, desc);
         }
 
-        return exportSection;
+        return new ExportSection(sectionId, sectionSize, exports);
     }
 
     private static StartSection parseStartSection(ByteBuffer buffer, long sectionId, long sectionSize) {
@@ -304,8 +303,8 @@ public class Parser {
     }
 
     private static ElementSection parseElementSection(ByteBuffer buffer, long sectionId, long sectionSize) {
-        var elementSection = new ElementSection(sectionId, sectionSize);
         var elementCount = readVarUInt32(buffer);
+        var elements = new Element[(int)elementCount];
 
         for (var i = 0; i < elementCount; i++) {
             var tableIndex = readVarUInt32(buffer);
@@ -320,16 +319,15 @@ public class Parser {
             for (var j = 0; j < funcIndexCount; j++) {
                 funcIndices.add(readVarUInt32(buffer));
             }
-            elementSection.addElement(new Element(tableIndex, expr, funcIndices));
-
+            elements[i] = new Element(tableIndex, expr, funcIndices);
         }
 
-        return elementSection;
+        return new ElementSection(sectionId, sectionSize, elements);
     }
 
     private static CodeSection parseCodeSection(ByteBuffer buffer, long sectionId, long sectionSize) {
-        var codeSection = new CodeSection(sectionId, sectionSize);
         var funcBodyCount = readVarUInt32(buffer);
+        var functionBodies = new FunctionBody[(int)funcBodyCount];
 
         // Parse individual function bodies in the code section
         for (int i = 0; i < funcBodyCount; i++) {
@@ -348,10 +346,10 @@ public class Parser {
                 instructions.add(instruction);
                 //System.out.println(Integer.toHexString(instruction.getAddress()) + " " + instruction);
             } while (buffer.position() < funcEndPoint);
-            codeSection.addFunctionBody(new FunctionBody(locals, instructions));
+            functionBodies[i] = new FunctionBody(locals, instructions);
         }
 
-        return codeSection;
+        return new CodeSection(sectionId, sectionSize, functionBodies);
     }
 
     private static Instruction parseInstruction(ByteBuffer buffer) {
@@ -384,8 +382,8 @@ public class Parser {
     }
 
     private static DataSection parseDataSection(ByteBuffer buffer, long sectionId, long sectionSize) {
-        var dataSection = new DataSection(sectionId, sectionSize);
         var dataSegmentCount = readVarUInt32(buffer);
+        var dataSegments = new DataSegment[(int)dataSegmentCount];
 
         for (var i = 0; i < dataSegmentCount; i++) {
             var idx = readVarUInt32(buffer);
@@ -398,10 +396,10 @@ public class Parser {
             } while (b != 0x0B);
             byte[] data = new byte[(int) readVarUInt32(buffer)];
             buffer.get(data);
-            dataSection.addDataSegment(new DataSegment(idx, offset, data));
+            dataSegments[i] = new DataSegment(idx, offset, data);
         }
 
-        return dataSection;
+        return new DataSection(sectionId, sectionSize, dataSegments);
     }
 
     /**

@@ -1,21 +1,14 @@
 package com.dylibso.wasm.types;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class DataSection extends Section {
-    private List<DataSegment> dataSegments;
+    private DataSegment[] dataSegments;
 
-    public DataSection(long id, long size) {
+    public DataSection(long id, long size, DataSegment[] dataSegments) {
        super(id, size);
-       this.dataSegments = new ArrayList<>();
+       this.dataSegments = dataSegments;
     }
 
-    public void addDataSegment(DataSegment d) {
-        this.dataSegments.add(d);
-    }
-
-    public List<DataSegment> getDataSegments() {
+    public DataSegment[] getDataSegments() {
         return dataSegments;
     }
 }

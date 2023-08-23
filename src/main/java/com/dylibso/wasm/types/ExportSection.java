@@ -1,21 +1,14 @@
 package com.dylibso.wasm.types;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class ExportSection extends Section {
-    private List<Export> exports;
+    private Export[] exports;
 
-    public ExportSection(long id, long size) {
+    public ExportSection(long id, long size, Export[] exports) {
        super(id, size);
-       this.exports = new ArrayList<>();
+       this.exports = exports;
     }
 
-    public void addExport(Export e) {
-        this.exports.add(e);
-    }
-
-    public List<Export> getExports() {
+    public Export[] getExports() {
         return exports;
     }
 }

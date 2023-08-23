@@ -1,21 +1,14 @@
 package com.dylibso.wasm.types;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class TableSection extends Section {
-    private List<Table> tables;
+    private Table[] tables;
 
-    public TableSection(long id, long size) {
+    public TableSection(long id, long size, Table[] tables) {
        super(id, size);
-       this.tables = new ArrayList<>();
+       this.tables = tables;
     }
 
-    public void addTable(Table t) {
-        this.tables.add(t);
-    }
-
-    public List<Table> getTables() {
+    public Table[] getTables() {
         return tables;
     }
 }

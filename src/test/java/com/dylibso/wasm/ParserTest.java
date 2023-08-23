@@ -4,7 +4,6 @@ import com.dylibso.wasm.types.*;
 import org.junit.Test;
 
 import java.io.File;
-import java.io.FilenameFilter;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -23,21 +22,21 @@ public class ParserTest {
         // check types section
         var typeSection = module.getTypeSection();
         var types = typeSection.getTypes();
-        assertEquals(2, types.size());
-        assertEquals("(I32) -> nil", types.get(0).toString());
-        assertEquals("() -> nil", types.get(1).toString());
+        assertEquals(2, types.length);
+        assertEquals("(I32) -> nil", types[0].toString());
+        assertEquals("() -> nil", types[1].toString());
 
         // check import section
         var importSection = module.getImportSection();
         var imports = importSection.getImports();
-        assertEquals(1, imports.size());
-        assertEquals("func[0] <env.gotit>", imports.get(0).toString());
+        assertEquals(1, imports.length);
+        assertEquals("func[0] <env.gotit>", imports[0].toString());
 
         // check data section
         var dataSection = module.getDataSection();
         var dataSegments = dataSection.getDataSegments();
-        assertEquals(1, dataSegments.size());
-        var segment = dataSegments.get(0);
+        assertEquals(1, dataSegments.length);
+        var segment = dataSegments[0];
         assertEquals(0, segment.getIdx());
         assertEquals(16L, (long) segment.getOffset().get(1));
         assertArrayEquals(new byte[]{0x00,0x01,0x02,0x03}, segment.getData());
@@ -49,8 +48,8 @@ public class ParserTest {
         // check function section
         var funcSection = module.getFunctionSection();
         var typeIndices = funcSection.getTypeIndices();
-        assertEquals(1, typeIndices.size());
-        assertEquals(1L, (long)typeIndices.get(0));
+        assertEquals(1, typeIndices.length);
+        assertEquals(1L, (long)typeIndices[0]);
 
         // check export section
 //        var exportSection = module.getExportSection();
@@ -60,14 +59,14 @@ public class ParserTest {
         // check memory section
         var memorySection = module.getMemorySection();
         var memories = memorySection.getMemories();
-        assertEquals(1, memories.size());
-        assertEquals(1, memories.get(0).getLimitMin());
-        assertNull(memories.get(0).getLimitMax());
+        assertEquals(1, memories.length);
+        assertEquals(1, memories[0].getLimitMin());
+        assertNull(memories[0].getLimitMax());
 
         var codeSection = module.getCodeSection();
         var functionBodies = codeSection.getFunctionBodies();
-        assertEquals(1, functionBodies.size());
-        var func = functionBodies.get(0);
+        assertEquals(1, functionBodies.length);
+        var func = functionBodies[0];
         var locals = func.getLocals();
         assertEquals(0, locals.size());
         var instructions = func.getInstructions();
@@ -89,19 +88,19 @@ public class ParserTest {
         // check types section
         var typeSection = module.getTypeSection();
         var types = typeSection.getTypes();
-        assertEquals(1, types.size());
-        assertEquals("(I32) -> I32", types.get(0).toString());
+        assertEquals(1, types.length);
+        assertEquals("(I32) -> I32", types[0].toString());
 
         // check function section
         var funcSection = module.getFunctionSection();
         var typeIndices = funcSection.getTypeIndices();
-        assertEquals(1, typeIndices.size());
-        assertEquals(0L, (long)typeIndices.get(0));
+        assertEquals(1, typeIndices.length);
+        assertEquals(0L, (long)typeIndices[0]);
 
         var codeSection = module.getCodeSection();
         var functionBodies = codeSection.getFunctionBodies();
-        assertEquals(1, functionBodies.size());
-        var func = functionBodies.get(0);
+        assertEquals(1, functionBodies.length);
+        var func = functionBodies[0];
         var locals = func.getLocals();
         assertEquals(1, locals.size());
         assertEquals(1, locals.get(0).asInt());
@@ -151,7 +150,7 @@ public class ParserTest {
         var parser = new Parser("src/test/resources/wasm/code.wasm");
         var module = parser.parseModule();
         var codeSection = module.getCodeSection();
-        var fbody = codeSection.getFunctionBodies().get(0);
+        var fbody = codeSection.getFunctionBodies()[0];
         var ast = fbody.getAst();
         ast.print();
     }

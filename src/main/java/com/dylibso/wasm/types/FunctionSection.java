@@ -1,21 +1,14 @@
 package com.dylibso.wasm.types;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class FunctionSection extends Section {
-    private List<Integer> typeIndices;
+    private int[] typeIndices;
 
-    public FunctionSection(long id, long size) {
+    public FunctionSection(long id, long size, int[] typeIndices) {
        super(id, size);
-       this.typeIndices = new ArrayList<>();
+       this.typeIndices = typeIndices;
     }
 
-    public void addTypeIndex(Integer i) {
-        this.typeIndices.add(i);
-    }
-
-    public List<Integer> getTypeIndices() {
+    public int[] getTypeIndices() {
         return typeIndices;
     }
 }

@@ -1,21 +1,14 @@
 package com.dylibso.wasm.types;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class ElementSection extends Section {
-    private List<Element> elements;
+    private Element[] elements;
 
-    public ElementSection(long id, long size) {
+    public ElementSection(long id, long size, Element[] elements) {
        super(id, size);
-       this.elements = new ArrayList<>();
+       this.elements = elements;
     }
 
-    public void addElement(Element e) {
-        this.elements.add(e);
-    }
-
-    public List<Element> getElements() {
+    public Element[] getElements() {
         return elements;
     }
 }
