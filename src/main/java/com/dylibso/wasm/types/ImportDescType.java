@@ -10,7 +10,7 @@ public enum ImportDescType {
     GlobalIdx(0x03);
 
     private final long id;
-    private ImportDescType(long id) { this.id = id; }
+    ImportDescType(long id) { this.id = id; }
 
     public long id() { return id; }
 

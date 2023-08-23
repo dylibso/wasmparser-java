@@ -1,8 +1,5 @@
 package com.dylibso.wasm.types;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class ExportDesc {
     private final long index;
     private final ExportDescType type;

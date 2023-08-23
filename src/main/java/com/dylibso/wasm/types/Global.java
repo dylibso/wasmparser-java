@@ -1,7 +1,5 @@
 package com.dylibso.wasm.types;
 
-import java.util.List;
-
 public class Global {
     private ValueType valueType;
     private MutabilityType mutabilityType;

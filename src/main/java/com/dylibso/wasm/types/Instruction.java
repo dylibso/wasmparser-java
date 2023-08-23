@@ -1,6 +1,5 @@
 package com.dylibso.wasm.types;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class Instruction {

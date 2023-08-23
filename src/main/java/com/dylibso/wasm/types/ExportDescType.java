@@ -10,7 +10,7 @@ public enum ExportDescType {
     GlobalIdx(0x03);
 
     private final long id;
-    private ExportDescType(long id) { this.id = id; }
+    ExportDescType(long id) { this.id = id; }
 
     public long id() { return id; }
 
