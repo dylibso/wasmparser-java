@@ -60,8 +60,10 @@ instructions.each_with_index do |instr, i|
         case p
         when "<varuint>"
           "WasmEncoding.VARUINT"
-        when "<float>"
-          "WasmEncoding.FLOAT"
+        when "<float32>"
+          "WasmEncoding.FLOAT32"
+        when "<float64>"
+          "WasmEncoding.FLOAT64"
         when "vec(<varuint>)"
           "WasmEncoding.VEC_VARUINT"
         else

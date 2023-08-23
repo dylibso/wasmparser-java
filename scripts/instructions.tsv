@@ -45,8 +45,8 @@ memory.size 	$3F
 memory.grow 	$40
 i32.const <varuint> 	$41
 i64.const <varuint> 	$42
-f32.const <float> 	$43
-f64.const <float> 	$44
+f32.const <float32> 	$43
+f64.const <float64> 	$44
 i32.eqz 	$45 		Return 1 if i is zero, 0 otherwise.
 i32.eq 	$46 		Return 1 if i1 equals i2, 0 otherwise.
 i32.ne 	$47 		Return 1 if i1 does not equal i2, 0 otherwise.

@@ -54,8 +54,8 @@ public enum OpCode {
 	MEMORY_GROW(0x40), // memory.grow
 	I32_CONST(0x41), // i32.const <varuint>
 	I64_CONST(0x42), // i64.const <varuint>
-	F32_CONST(0x43), // f32.const <float>
-	F64_CONST(0x44), // f64.const <float>
+	F32_CONST(0x43), // f32.const <float32>
+	F64_CONST(0x44), // f64.const <float64>
 	I32_EQZ(0x45), // i32.eqz
 	I32_EQ(0x46), // i32.eq
 	I32_NE(0x47), // i32.ne
@@ -254,8 +254,8 @@ public enum OpCode {
 		signature.put(MEMORY_GROW, new WasmEncoding[]{});
 		signature.put(I32_CONST, new WasmEncoding[]{WasmEncoding.VARUINT});
 		signature.put(I64_CONST, new WasmEncoding[]{WasmEncoding.VARUINT});
-		signature.put(F32_CONST, new WasmEncoding[]{WasmEncoding.FLOAT});
-		signature.put(F64_CONST, new WasmEncoding[]{WasmEncoding.FLOAT});
+		signature.put(F32_CONST, new WasmEncoding[]{WasmEncoding.FLOAT32});
+		signature.put(F64_CONST, new WasmEncoding[]{WasmEncoding.FLOAT64});
 		signature.put(I32_EQZ, new WasmEncoding[]{});
 		signature.put(I32_EQ, new WasmEncoding[]{});
 		signature.put(I32_NE, new WasmEncoding[]{});

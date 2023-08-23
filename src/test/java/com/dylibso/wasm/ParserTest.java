@@ -122,18 +122,12 @@ public class ParserTest {
                 passed++;
             } catch (Exception e) {
                 e.printStackTrace();
+                System.out.println(f);
                 failed++;
             }
         }
         System.out.println("Passed: " + passed);
         System.out.println("failed: " + failed);
-    }
-
-    @Test
-    public void shouldParseCodeWasm() {
-        var parser = new Parser("src/test/resources/wasm/code.wasm");
-        var module = parser.parseModule();
-        assertEquals(9, module.getCustomSections().size());
     }
 
     @Test

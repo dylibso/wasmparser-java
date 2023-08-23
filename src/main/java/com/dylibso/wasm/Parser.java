@@ -346,7 +346,7 @@ public class Parser {
             do {
                 var instruction = parseInstruction(buffer);
                 instructions.add(instruction);
-                //System.out.println(instruction.toString());
+                //System.out.println(Integer.toHexString(instruction.getAddress()) + " " + instruction);
             } while (buffer.position() < funcEndPoint);
             codeSection.addFunctionBody(new FunctionBody(locals, instructions));
         }
@@ -370,7 +370,8 @@ public class Parser {
         for (var sig : signature) {
             switch (sig) {
                 case VARUINT -> operands.add(readVarUInt32(buffer));
-                case FLOAT -> operands.add(readFloat(buffer));
+                case FLOAT64 -> operands.add(readFloat64(buffer));
+                case FLOAT32 -> operands.add(readFloat32(buffer));
                 case VEC_VARUINT -> {
                     var vcount = readVarUInt32(buffer);
                     for (var i = 0; i < vcount; i++) {
@@ -414,9 +415,13 @@ public class Parser {
         return Leb128.readUnsignedLeb128(buffer);
     }
 
-    // TODO convert to bytes don't cast
-    private static long readFloat(ByteBuffer buffer) {
-        return (long) buffer.getFloat();
+    // TODO read real float
+    // should also distinguish b/w f32 and f64
+    private static long readFloat64(ByteBuffer buffer) {
+        return buffer.getLong();
+    }
+    private static long readFloat32(ByteBuffer buffer) {
+        return buffer.getInt();
     }
 
     private static String readName(ByteBuffer buffer) {
