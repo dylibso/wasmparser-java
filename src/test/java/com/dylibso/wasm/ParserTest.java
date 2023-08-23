@@ -38,7 +38,7 @@ public class ParserTest {
         assertEquals(1, dataSegments.length);
         var segment = dataSegments[0];
         assertEquals(0, segment.getIdx());
-        assertEquals(16L, (long) segment.getOffset().get(1));
+        assertEquals(OpCode.I32_CONST, segment.getOffset()[0].getOpcode());
         assertArrayEquals(new byte[]{0x00,0x01,0x02,0x03}, segment.getData());
 
         // check start section

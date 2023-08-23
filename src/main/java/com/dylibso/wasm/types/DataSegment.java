@@ -4,10 +4,10 @@ import java.util.List;
 
 public class DataSegment {
     private long idx;
-    private List<Byte> offset;
+    private Instruction[] offset;
     private byte[] data;
 
-    public DataSegment(long idx, List<Byte> offset, byte[] data) {
+    public DataSegment(long idx, Instruction[] offset, byte[] data) {
         this.idx = idx;
         this.offset = offset;
         this.data = data;
@@ -17,7 +17,7 @@ public class DataSegment {
         return idx;
     }
 
-    public List<Byte> getOffset() {
+    public Instruction[] getOffset() {
         return offset;
     }
 

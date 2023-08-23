@@ -267,13 +267,7 @@ public class Parser {
         for (int i = 0; i < globalCount; i++) {
             var valueType = ValueType.byId(readVarUInt32(buffer));
             var mutabilityType = MutabilityType.byId(readVarUInt32(buffer));
-            var init = new ArrayList<Byte>();
-            // TODO make it instruction parser
-            byte b;
-            do {
-                b = (byte) (buffer.get() & 0xff);
-                init.add(b);
-            } while (b != 0x0B);
+            var init = parseExpression(buffer);
             globals[i] = new Global(valueType, mutabilityType, init);
         }
 
@@ -308,12 +302,7 @@ public class Parser {
 
         for (var i = 0; i < elementCount; i++) {
             var tableIndex = readVarUInt32(buffer);
-            var expr = new ArrayList<Byte>();
-            byte b;
-            do {
-                b = (byte) (buffer.get() & 0xff);
-                expr.add(b);
-            } while (b != 0x0B);
+            var expr = parseExpression(buffer);
             var funcIndexCount = readVarUInt32(buffer);
             var funcIndices = new ArrayList<Long>();
             for (var j = 0; j < funcIndexCount; j++) {
@@ -352,6 +341,22 @@ public class Parser {
         return new CodeSection(sectionId, sectionSize, functionBodies);
     }
 
+    private static DataSection parseDataSection(ByteBuffer buffer, long sectionId, long sectionSize) {
+        var dataSegmentCount = readVarUInt32(buffer);
+        var dataSegments = new DataSegment[(int)dataSegmentCount];
+
+        for (var i = 0; i < dataSegmentCount; i++) {
+            var idx = readVarUInt32(buffer);
+            var offset = parseExpression(buffer);
+            byte[] data = new byte[(int) readVarUInt32(buffer)];
+            buffer.get(data);
+            dataSegments[i] = new DataSegment(idx, offset, data);
+        }
+
+        return new DataSection(sectionId, sectionSize, dataSegments);
+    }
+
+
     private static Instruction parseInstruction(ByteBuffer buffer) {
         var address = buffer.position();
         var b = buffer.get() & 0xff;
@@ -381,25 +386,16 @@ public class Parser {
         return new Instruction(address, op, operands);
     }
 
-    private static DataSection parseDataSection(ByteBuffer buffer, long sectionId, long sectionSize) {
-        var dataSegmentCount = readVarUInt32(buffer);
-        var dataSegments = new DataSegment[(int)dataSegmentCount];
-
-        for (var i = 0; i < dataSegmentCount; i++) {
-            var idx = readVarUInt32(buffer);
-            // TODO make it instruction parser
-            var offset = new ArrayList<Byte>();
-            byte b;
-            do {
-                b = (byte) (buffer.get() & 0xff);
-                offset.add(b);
-            } while (b != 0x0B);
-            byte[] data = new byte[(int) readVarUInt32(buffer)];
-            buffer.get(data);
-            dataSegments[i] = new DataSegment(idx, offset, data);
+    private static Instruction[] parseExpression(ByteBuffer buffer) {
+        var expr = new ArrayList<Instruction>();
+        while (true) {
+            var i = parseInstruction(buffer);
+            if (i.getOpcode() == OpCode.END) {
+                break;
+            }
+            expr.add(i);
         }
-
-        return new DataSection(sectionId, sectionSize, dataSegments);
+        return expr.toArray(new Instruction[0]);
     }
 
     /**

@@ -4,10 +4,10 @@ import java.util.List;
 
 public class Element {
     private long tableIndex;
-    private List<Byte> expr;
+    private Instruction[] expr;
     private List<Long> funcIndices;
 
-    public Element(long tableIndex, List<Byte> expr, List<Long> funcIndices) {
+    public Element(long tableIndex, Instruction[] expr, List<Long> funcIndices) {
         this.tableIndex = tableIndex;
         this.expr = expr;
         this.funcIndices = funcIndices;
@@ -17,7 +17,7 @@ public class Element {
         return funcIndices;
     }
 
-    public List<Byte> getExpr() {
+    public Instruction[] getExpr() {
         return expr;
     }
 

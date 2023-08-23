@@ -5,9 +5,9 @@ import java.util.List;
 public class Global {
     private ValueType valueType;
     private MutabilityType mutabilityType;
-    private List<Byte> init;
+    private Instruction[] init;
 
-    public Global(ValueType valueType, MutabilityType mutabilityType, List<Byte> init) {
+    public Global(ValueType valueType, MutabilityType mutabilityType, Instruction[] init) {
         this.valueType = valueType;
         this.mutabilityType = mutabilityType;
         this.init = init;
@@ -21,7 +21,7 @@ public class Global {
         return valueType;
     }
 
-    public List<Byte> getInit() {
+    public Instruction[] getInit() {
         return init;
     }
 }
