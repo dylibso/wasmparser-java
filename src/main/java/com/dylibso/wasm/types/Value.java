@@ -1,5 +1,7 @@
 package com.dylibso.wasm.types;
 
+import com.dylibso.wasm.Encoding;
+
 import java.nio.ByteBuffer;
 
 public class Value {
@@ -18,6 +20,14 @@ public class Value {
 
     public static Value i64(long data) {
         return new Value(ValueType.I64, data);
+    }
+
+    public static Value f32(long data) {
+        return new Value(ValueType.F32, data);
+    }
+
+    public static Value f64(long data) {
+        return new Value(ValueType.F64, data);
     }
 
     public ValueType getType() { return this.type; }
@@ -80,6 +90,14 @@ public class Value {
         return this.data[this.data.length - 1]; // this the right byte?
     }
 
+    public float asFloat() {
+        return Encoding.bytesToFloat(this.data);
+    }
+
+    public double asDouble() {
+        return Encoding.bytesToDouble(this.data);
+    }
+
     public String toString() {
         switch (this.type) {
             case I32 -> {
@@ -88,9 +106,13 @@ public class Value {
             case I64 -> {
                 return this.asLong() + "@i64";
             }
-            default -> {
-                throw new RuntimeException("TODO handle float");
+            case F32 -> {
+                return this.asFloat() + "@f32";
             }
+            case F64 -> {
+                return this.asDouble() + "@f64";
+            }
+            default -> throw new RuntimeException("TODO handle float");
         }
     }
 }
