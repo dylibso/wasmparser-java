@@ -5,7 +5,6 @@ import java.nio.ByteBuffer;
 public class Value {
     private final ValueType type;
     private final byte[] data;
-
     public static Value TRUE;
     public static Value FALSE;
     static {
@@ -29,6 +28,7 @@ public class Value {
         this.type = type;
         this.data = data;
     }
+
     public Value(ValueType type, int data) {
         this.type = type;
         this.data = ByteBuffer.allocate(4).putInt(data).array();
@@ -37,33 +37,14 @@ public class Value {
     public Value(ValueType type, long data) {
         this.type = type;
         switch (type) {
-            case I32 -> {
+            case I32, F32 -> {
                 this.data = new byte[4];
                 this.data[0] = (byte) (data >> 24);
                 this.data[1] = (byte) (data >> 16);
                 this.data[2] = (byte) (data >> 8);
                 this.data[3] = (byte) data;
             }
-            case I64 -> {
-                this.data = new byte[8];
-                this.data[0] = (byte) (data >> 56);
-                this.data[1] = (byte) (data >> 48);
-                this.data[2] = (byte) (data >> 40);
-                this.data[3] = (byte) (data >> 32);
-                this.data[4] = (byte) (data >> 24);
-                this.data[5] = (byte) (data >> 16);
-                this.data[6] = (byte) (data >> 8);
-                this.data[7] = (byte) data;
-            }
-            // TODO this is fake float support
-            case F32 -> {
-                this.data = new byte[4];
-                this.data[0] = (byte) (data >> 24);
-                this.data[1] = (byte) (data >> 16);
-                this.data[2] = (byte) (data >> 8);
-                this.data[3] = (byte) data;
-            }
-            case F64 -> {
+            case I64, F64 -> {
                 this.data = new byte[8];
                 this.data[0] = (byte) (data >> 56);
                 this.data[1] = (byte) (data >> 48);

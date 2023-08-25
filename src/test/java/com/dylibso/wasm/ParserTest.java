@@ -154,4 +154,16 @@ public class ParserTest {
         var ast = fbody.getAst();
         ast.print();
     }
+
+    @Test
+    public void shouldParseFloats() {
+        var parser = new Parser("src/test/resources/wasm/float.wat.wasm");
+        var module = parser.parseModule();
+        var codeSection = module.getCodeSection();
+        var fbody = codeSection.getFunctionBodies()[0];
+        var f32 = Encoding.longToFloat(fbody.getInstructions().get(0).getOperands().get(0));
+        assertEquals(0.12345678f, f32, 0.000000001f);
+        var f64 = Encoding.longToDouble(fbody.getInstructions().get(1).getOperands().get(0));
+        assertEquals(0.123456789012345d, f64, 0.00000000000001d);
+    }
 }

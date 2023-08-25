@@ -149,7 +149,7 @@ public class Parser {
         var name = readName(buffer);
         customSection.setName(name);
         var byteLen = name.getBytes().length;
-        var bytes = new byte[(int) (sectionSize - byteLen - Leb128.computeLeb128Size(byteLen))];
+        var bytes = new byte[(int) (sectionSize - byteLen - Encoding.computeLeb128Size(byteLen))];
         buffer.get(bytes);
         customSection.setBytes(bytes);
         return customSection;
@@ -406,14 +406,13 @@ public class Parser {
      * @return
      */
     private static long readVarUInt32(ByteBuffer buffer) {
-        return Leb128.readUnsignedLeb128(buffer);
+        return Encoding.readUnsignedLeb128(buffer);
     }
 
-    // TODO read real float
-    // should also distinguish b/w f32 and f64
     private static long readFloat64(ByteBuffer buffer) {
         return buffer.getLong();
     }
+
     private static long readFloat32(ByteBuffer buffer) {
         return buffer.getInt();
     }
