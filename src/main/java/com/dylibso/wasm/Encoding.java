@@ -4,54 +4,28 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
 public final class Encoding {
-
-    /**
-     * Reads an unsigned long from {@code byteBuffer}.
-     */
-    public static long readSignedLeb128(ByteBuffer byteBuffer) {
-        long result = 0;
-        int shift = 0;
-
-        while (true) {
-            byte b = byteBuffer.get();
-            result |= (long) (b & 0x7F) << shift;
-            shift += 7;
-
-            if ((b & 0x80) == 0) {
-                if ((shift < 64) && ((b & 0x40) != 0))
-                    result |= -1L << shift;
-                break;
-            }
-        }
-
-        return result;
-    }
-
     /**
      * Reads an unsigned integer from {@code byteBuffer}.
      */
     public static long readUnsignedLeb128(ByteBuffer byteBuffer) {
         long result = 0;
-
-        for (int i = 0; ; i++) {
-            final int b = byteBuffer.get();
-            final long low7Bits = b & 0x7f;
-            final boolean done = (b & 0x80) == 0;
-
-            // The first 9 groups of 7 bits are guaranteed to fit (9 * 7 = 63 bits).
-            // That leaves room for only the low-order bit from the 10th group (which has index 9)
-            if (i == 9 && (b & 0xfe) != 0) {
-                // TODO fix and put exception back
-                System.out.println("Warning: Value is larger than 64 bits");
-                //throw new ArithmeticException("Value is larger than 64-bits");
-                return result;
+        int shift = 0;
+        while (true) {
+            if (byteBuffer.remaining() == 0) {
+                throw new IllegalArgumentException("ULEB128 reached the end of the buffer");
             }
 
-            result |= low7Bits << (7 * i);
-            if (done) {
-                return result;
+            byte b = byteBuffer.get();
+            result |= (long) (b & 0x7F) << shift;
+
+            if ((b & 0x80) == 0) {
+                break;
             }
+
+            shift += 7;
         }
+
+        return result;
     }
 
     // Computes the number of bytes required to encode a given value as LEB128

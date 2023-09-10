@@ -112,21 +112,10 @@ public class ParserTest {
     public void shouldParseAllFiles() {
         File dir = new File("src/test/resources/wasm/");
         File[] files = dir.listFiles((dir1, name) -> name.toLowerCase().endsWith(".wasm"));
-        var passed = 0;
-        var failed = 0;
         for (var f : files) {
             var parser = new Parser(f.getPath());
-            try {
-                var module = parser.parseModule();
-                passed++;
-            } catch (Exception e) {
-                e.printStackTrace();
-                System.out.println(f);
-                failed++;
-            }
+            var module = parser.parseModule();
         }
-        System.out.println("Passed: " + passed);
-        System.out.println("failed: " + failed);
     }
 
     @Test
