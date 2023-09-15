@@ -43,8 +43,8 @@ i64.store16 <varuint> <varuint> 	$3D
 i64.store32 <varuint> <varuint> 	$3E
 memory.size 	$3F
 memory.grow 	$40
-i32.const <varuint> 	$41
-i64.const <varuint> 	$42
+i32.const <varsint32> 	$41
+i64.const <varsint64> 	$42
 f32.const <float32> 	$43
 f64.const <float64> 	$44
 i32.eqz 	$45 		Return 1 if i is zero, 0 otherwise.

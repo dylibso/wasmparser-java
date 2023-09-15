@@ -373,6 +373,8 @@ public class Parser {
         for (var sig : signature) {
             switch (sig) {
                 case VARUINT -> operands.add(readVarUInt32(buffer));
+                case VARSINT32 -> operands.add(readVarSInt32(buffer));
+                case VARSINT64 -> operands.add(readVarSInt64(buffer));
                 case FLOAT64 -> operands.add(readFloat64(buffer));
                 case FLOAT32 -> operands.add(readFloat32(buffer));
                 case VEC_VARUINT -> {
@@ -407,6 +409,27 @@ public class Parser {
      */
     private static long readVarUInt32(ByteBuffer buffer) {
         return Encoding.readUnsignedLeb128(buffer);
+    }
+
+    /**
+     * Parse a varsint32 from the buffer. We can't fit an unsigned 32bit int
+     * into a java int, so we must use a long to use the same type as unsigned.
+     *
+     * @param buffer
+     * @return
+     */
+    private static long readVarSInt32(ByteBuffer buffer) {
+        return Encoding.readSigned32Leb128(buffer);
+    }
+
+    /**
+     * Parse a varsint64 from the buffer which fits neatly into a long
+     *
+     * @param buffer
+     * @return
+     */
+    private static long readVarSInt64(ByteBuffer buffer) {
+        return Encoding.readSigned64Leb128(buffer);
     }
 
     private static long readFloat64(ByteBuffer buffer) {

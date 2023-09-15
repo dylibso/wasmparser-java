@@ -60,6 +60,10 @@ instructions.each_with_index do |instr, i|
         case p
         when "<varuint>"
           "WasmEncoding.VARUINT"
+        when "<varsint32>"
+          "WasmEncoding.VARSINT32"
+        when "<varsint64>"
+          "WasmEncoding.VARSINT64"
         when "<float32>"
           "WasmEncoding.FLOAT32"
         when "<float64>"

@@ -4,6 +4,7 @@ import com.dylibso.wasm.types.*;
 import org.junit.Test;
 
 import java.io.File;
+import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -154,5 +155,20 @@ public class ParserTest {
         assertEquals(0.12345678f, f32, 0.000000001f);
         var f64 = Encoding.longToDouble(fbody.getInstructions().get(1).getOperands().get(0));
         assertEquals(0.123456789012345d, f64, 0.00000000000001d);
+    }
+
+
+    @Test
+    public void shouldProperlyParseSignedValue() {
+        var parser = new Parser("src/test/resources/wasm/i32.wat.wasm");
+        var module = parser.parseModule();
+        var codeSection = module.getCodeSection();
+        var fbody = codeSection.getFunctionBodies()[0];
+        assertEquals(-2147483648L, (long) fbody.getInstructions().get(0).getOperands().get(0));
+        assertEquals(0L, (long) fbody.getInstructions().get(2).getOperands().get(0));
+        assertEquals(2147483647L, (long) fbody.getInstructions().get(4).getOperands().get(0));
+        assertEquals(-9223372036854775808L, (long) fbody.getInstructions().get(6).getOperands().get(0));
+        assertEquals(0L, (long) fbody.getInstructions().get(8).getOperands().get(0));
+        assertEquals(9223372036854775807L, (long) fbody.getInstructions().get(10).getOperands().get(0));
     }
 }
