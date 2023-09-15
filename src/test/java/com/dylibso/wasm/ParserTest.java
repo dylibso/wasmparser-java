@@ -170,5 +170,13 @@ public class ParserTest {
         assertEquals(-9223372036854775808L, (long) fbody.getInstructions().get(6).getOperands().get(0));
         assertEquals(0L, (long) fbody.getInstructions().get(8).getOperands().get(0));
         assertEquals(9223372036854775807L, (long) fbody.getInstructions().get(10).getOperands().get(0));
+        assertEquals(-2147483647L, (long) fbody.getInstructions().get(12).getOperands().get(0));
+        assertEquals(2147483646L, (long) fbody.getInstructions().get(14).getOperands().get(0));
+        assertEquals(-9223372036854775807L, (long) fbody.getInstructions().get(16).getOperands().get(0));
+        assertEquals(9223372036854775806L, (long) fbody.getInstructions().get(18).getOperands().get(0));
+        assertEquals(-1L, (long) fbody.getInstructions().get(20).getOperands().get(0));
+        assertEquals(1L, (long) fbody.getInstructions().get(22).getOperands().get(0));
+        assertEquals(-1L, (long) fbody.getInstructions().get(24).getOperands().get(0));
+        assertEquals(1L, (long) fbody.getInstructions().get(26).getOperands().get(0));
     }
 }
