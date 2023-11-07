@@ -1,6 +1,6 @@
 # wasmparser
 
-> **Note**: We've moved active development on this project to a larger repo with a broader goal. It will remain open source and the API will be roughly the same. However it won't be public until November or December of 2023. If you're interested in development of this library please reach out to ben@dylibso.com.
+> **Note**: We've moved active development on this project to [chicory](https://github.com/dylibso/chicory).
 
 This is a pure Java library that can parse Wasm binaries. This is in alpha at the moment.
 We are working on coverage of the spec, tests, and the API may change. When things get settled
